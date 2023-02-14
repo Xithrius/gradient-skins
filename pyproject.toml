@@ -1,12 +1,14 @@
 [tool.poetry]
-name = "python-project-template"
+name = "gradient-skins"
 version = "0.1.0"
-description = "Discord graphing bot"
+description = "Minecraft gradient skins generator."
 authors = ["Xithrius <xithrius@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "3.10.9"
+python = "3.11.1"
+pillow = "9.4.0"
+numpy = "1.24.2"
 
 [tool.poetry.dev-dependencies]
 flake8 = "6.0.0"
@@ -29,7 +31,7 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
-start = "python -m project"
+start = "python -m gradient-skins"
 lint = "pre-commit run --all-files"
 precommit = "pre-commit install"
 
@@ -46,7 +48,7 @@ line_length = 120
 atomic = true
 
 [tool.pyright]
-include = ["project/**/*.py"]
+include = ["gradient-skins/**/*.py"]
 exclude = ["**/__pycache__"]
 
 typeCheckingMode = "strict"

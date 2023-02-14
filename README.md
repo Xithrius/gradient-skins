@@ -1,2 +1,3 @@
-# python-project-template
-A template for Python projects.
+# Gradient skins
+
+Generate gradient Minecraft skins with ease.

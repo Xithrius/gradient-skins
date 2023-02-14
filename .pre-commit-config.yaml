@@ -23,14 +23,14 @@ repos:
     hooks:
       - id: flake8
         name: flake8
-        description: Run flake8 within our project's environment.
+        description: Run flake8 within our gradient-skins's environment.
         entry: poetry run flake8
         language: system
         types: [python]
         require_serial: true
       - id: pyright
         name: pyright
-        description: Run flake8 within our project's environment.
+        description: Run flake8 within our gradient-skins's environment.
         entry: poetry run pyright
         language: system
         types: [python]
