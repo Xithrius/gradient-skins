@@ -18,7 +18,7 @@ def get_gradient_3d(
     stop_list: tuple[int, int, int],
     is_horizontal_list: tuple[bool, bool, bool]
 ):
-    result = np.zeros((height, width, len(start_list)), dtype=np.cfloat)
+    result = np.zeros((height, width, len(start_list)))
 
     for i, (start, stop, is_horizontal) in enumerate(zip(start_list, stop_list, is_horizontal_list)):
         result[:, :, i] = get_gradient_2d(start, stop, width, height, is_horizontal)
@@ -26,18 +26,19 @@ def get_gradient_3d(
     return result
 
 
-def generator():
-    # array = get_gradient_3d(512, 256, (0, 0, 0), (255, 255, 255), (True, True, True))
-    # Image.fromarray(np.uint8(array)).save('data/dst/gray_gradient_h.jpg', quality=95)
-    #
-    # array = get_gradient_3d(512, 256, (0, 0, 0), (255, 255, 255), (False, False, False))
-    # Image.fromarray(np.uint8(array)).save('data/dst/gray_gradient_v.jpg', quality=95)
-    #
-    # array = get_gradient_3d(512, 256, (0, 0, 192), (255, 255, 64), (True, False, False))
-    # Image.fromarray(np.uint8(array)).save('data/dst/color_gradient.jpg', quality=95)
+def sample_gradient(hs: tuple[bool, bool, bool]):
+    return get_gradient_3d(64, 64, (8, 159, 143), (42, 72, 88), hs)
 
-    array = get_gradient_3d(64, 64, (8, 159, 143), (42, 72, 88), (True, True, False))
-    Image.fromarray(np.uint8(array)).save('data/dst/test_skin.jpg', quality=95)
+
+def generator():
+    array = sample_gradient((True, True, True))
+    Image.fromarray(np.uint8(array)).save('examples/gradient_h.jpg', quality=100)
+
+    array = sample_gradient((False, False, False))
+    Image.fromarray(np.uint8(array)).save('examples/gradient_v.jpg', quality=100)
+
+    array = sample_gradient((True, True, False))
+    Image.fromarray(np.uint8(array)).save('examples/gradient_hv.jpg', quality=100)
 
 
 if __name__ == "__main__":
