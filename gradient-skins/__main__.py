@@ -32,13 +32,13 @@ def sample_gradient(hs: tuple[bool, bool, bool]):
 
 def generator():
     array = sample_gradient((True, True, True))
-    Image.fromarray(np.uint8(array)).save('examples/gradient_h.jpg', quality=100)
+    Image.fromarray(np.uint8(array)).save('examples/gradient_h.png', quality=100)
 
     array = sample_gradient((False, False, False))
-    Image.fromarray(np.uint8(array)).save('examples/gradient_v.jpg', quality=100)
+    Image.fromarray(np.uint8(array)).save('examples/gradient_v.png', quality=100)
 
     array = sample_gradient((True, True, False))
-    Image.fromarray(np.uint8(array)).save('examples/gradient_hv.jpg', quality=100)
+    Image.fromarray(np.uint8(array)).save('examples/gradient_hv.png', quality=100)
 
 
 if __name__ == "__main__":
