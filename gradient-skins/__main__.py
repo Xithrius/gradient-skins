@@ -43,21 +43,32 @@ removing = [
     (48, 64, 48, 64),
     (48, 52, 44, 48),
     (48, 52, 28, 36),
-    (48, 52, 16, 20)
+    (48, 52, 16, 20),
+    (20, 32, 56, 64)
 ]
 
 
 def main():
-    array = sample_gradient((True, True, False))
+    array = sample_gradient((False, False, False))
     img = Image.fromarray(np.uint8(array)).convert('RGBA')
     img_arr = np.array(img)
+
+    img_arr[48:64, 16:32] = np.copy(img_arr[32:48, 16:32])
+    img_arr[16:32, 0:16] = np.copy(img_arr[32:48, 16:32])
 
     for (y1, y2, x1, x2) in removing:
         img_arr[y1:y2, x1:x2] = (0, 0, 0, 0)
 
+    img_arr[48:64, 32:48] = img_arr[16:32, 40:56]
+
+    # right arm at img_arr[16:32, 40:56]
+    # left arm at img_arr[48:64, 32:48]
+    # left leg at img_arr[48:64, 16:32]
+    # right leg at img_arr[16:32, 0:16]
+
     img = Image.fromarray(img_arr)
 
-    img.save('examples/test.png', quality=100)
+    img.save('examples/cut_from_v.png', quality=100)
 
 
 def generator():
