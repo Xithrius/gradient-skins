@@ -27,7 +27,8 @@ def get_gradient_3d(
 
 
 def sample_gradient(hs: tuple[bool, bool, bool]):
-    return get_gradient_3d(64, 64, (8, 159, 143), (42, 72, 88), hs)
+    # return get_gradient_3d(64, 64, (8, 159, 143), (42, 72, 88), hs)
+    return get_gradient_3d(64, 64, (128, 0, 128), (137, 207, 240), hs)
 
 
 removing = [
@@ -53,8 +54,8 @@ def main():
     img = Image.fromarray(np.uint8(array)).convert('RGBA')
     img_arr = np.array(img)
 
-    img_arr[48:64, 16:32] = np.copy(img_arr[32:48, 16:32])
-    img_arr[16:32, 0:16] = np.copy(img_arr[32:48, 16:32])
+    img_arr[48:64, 16:32] = np.copy(img_arr[28:44, 16:32])
+    img_arr[16:32, 0:16] = np.copy(img_arr[28:44, 16:32])
 
     for (y1, y2, x1, x2) in removing:
         img_arr[y1:y2, x1:x2] = (0, 0, 0, 0)
