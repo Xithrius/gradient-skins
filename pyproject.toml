@@ -39,7 +39,7 @@ requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"
 
 [tool.pdm.scripts]
-start = "python -m gradient-skins"
+gen = "python -m gradient-skins"
 lint = "pre-commit run --all-files"
 precommit = "pre-commit install"
 
