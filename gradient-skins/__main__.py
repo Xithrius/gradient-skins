@@ -27,7 +27,7 @@ def get_gradient_3d(
     return result
 
 
-removing = [
+to_remove = [
     (0, 8, 0, 8),
     (0, 8, 24, 64),
     (8, 16, 32, 64),
@@ -59,7 +59,7 @@ def generator(path: str, direction: str, start_color: tuple, end_color: tuple):
     img_arr[48:64, 16:32] = np.copy(img_arr[28:44, 16:32])
     img_arr[16:32, 0:16] = np.copy(img_arr[28:44, 16:32])
 
-    for (y1, y2, x1, x2) in removing:
+    for (y1, y2, x1, x2) in to_remove:
         img_arr[y1:y2, x1:x2] = (0, 0, 0, 0)
 
     img_arr[48:64, 32:48] = img_arr[16:32, 40:56]
@@ -84,9 +84,8 @@ def rgb_tuple(s: str) -> tuple:
         raise argparse.ArgumentTypeError("RGB value tuple must be formatted as r,g,b")
 
 
-# (8, 159, 143), (42, 72, 88)
-# (128, 0, 128), (137, 207, 240)
 # example: pdm run gen ./test.png "8,159,143" "42,72,88"
+# example: pdm run gen ./test.png "128,0,128" "137,207,240"
 def main():
     parser = argparse.ArgumentParser(description="Generate a gradient skin.")
 
@@ -100,8 +99,8 @@ def main():
 
     args = parser.parse_args()
 
-    if args.direction != "v":
-        raise ValueError("Only 'h' direction is supported at this time.")
+    # if args.direction != "v":
+    #     raise ValueError("Only 'h' direction is supported at this time.")
 
     generator(args.image_path, args.direction, args.start_color, args.end_color)
 
