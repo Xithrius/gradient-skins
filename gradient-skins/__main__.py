@@ -1,9 +1,10 @@
+import argparse
+
 import numpy as np
 from PIL import Image
 
 
 # https://github.com/nkmk/python-snippets/blob/master/notebook/numpy_generate_gradient_image.py
-
 def get_gradient_2d(start: int, stop: int, width: int, height: int, is_horizontal: bool):
     if is_horizontal:
         return np.tile(np.linspace(start, stop, width), (height, 1))
@@ -26,11 +27,6 @@ def get_gradient_3d(
     return result
 
 
-def sample_gradient(hs: tuple[bool, bool, bool]):
-    # return get_gradient_3d(64, 64, (8, 159, 143), (42, 72, 88), hs)
-    return get_gradient_3d(64, 64, (128, 0, 128), (137, 207, 240), hs)
-
-
 removing = [
     (0, 8, 0, 8),
     (0, 8, 24, 64),
@@ -49,8 +45,14 @@ removing = [
 ]
 
 
-def main():
-    array = sample_gradient((False, False, False))
+def generator(path: str, direction: str, start_color: tuple, end_color: tuple):
+    gradient_direction = (False, False, False)
+    if direction == 'h':
+        gradient_direction = (True, True, True)
+    elif direction == 'hv':
+        gradient_direction = (True, True, False)
+
+    array = get_gradient_3d(64, 64, start_color, end_color, gradient_direction)
     img = Image.fromarray(np.uint8(array)).convert('RGBA')
     img_arr = np.array(img)
 
@@ -69,20 +71,40 @@ def main():
 
     img = Image.fromarray(img_arr)
 
-    img.save('examples/cut_from_v.png', quality=100)
+    img.save(path, quality=100)
 
 
-def generator():
-    array = sample_gradient((True, True, True))
-    Image.fromarray(np.uint8(array)).save('examples/gradient_h.png', quality=100)
+# https://stackoverflow.com/a/9979169
+def rgb_tuple(s: str) -> tuple:
+    try:
+        r, g, b = map(int, s.split(','))
 
-    array = sample_gradient((False, False, False))
-    Image.fromarray(np.uint8(array)).save('examples/gradient_v.png', quality=100)
+        return r, g, b
+    except Exception:
+        raise argparse.ArgumentTypeError("RGB value tuple must be formatted as r,g,b")
 
-    array = sample_gradient((True, True, False))
-    Image.fromarray(np.uint8(array)).save('examples/gradient_hv.png', quality=100)
+
+# (8, 159, 143), (42, 72, 88)
+# (128, 0, 128), (137, 207, 240)
+# example: pdm run gen ./test.png "8,159,143" "42,72,88"
+def main():
+    parser = argparse.ArgumentParser(description="Generate a gradient skin.")
+
+    parser.add_argument("image_path", type=str, nargs="?", help="Where you want to save the skin to.")
+
+    parser.add_argument('start_color', type=rgb_tuple, nargs="?", help="The RGB value to start with.")
+
+    parser.add_argument('end_color', type=rgb_tuple, nargs="?", help="The RGB value to end with.")
+
+    parser.add_argument("--direction", type=str, nargs="?", choices=["h", "v", "hv"], default="v")
+
+    args = parser.parse_args()
+
+    if args.direction != "v":
+        raise ValueError("Only 'h' direction is supported at this time.")
+
+    generator(args.image_path, args.direction, args.start_color, args.end_color)
 
 
 if __name__ == "__main__":
-    # generator()
     main()
