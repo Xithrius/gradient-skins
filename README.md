@@ -4,12 +4,12 @@ Generate gradient Minecraft skins with ease.
 
 ## Setup and run
 
-Install [pdm](https://github.com/pdm-project/pdm), and make sure it is in your PATH environment variable.
+Install [uv](https://docs.astral.sh/uv/), and make sure it is in your `PATH` environment variable.
 
-Afterwards, run `pdm install` in the cloned github repository.
+Run `uv run gradient_skins.py --help` for argument help.
 
-Run `pdm gen --help` for argument help. Here is an example of outputting a gradient skin to the file `test.png`, from the RGB value of `(8, 159, 143)` to `(42, 72, 88)`:
+Example of creating a gradient skin at `test.png` of the RGB values from `(8, 159, 143)` to `(42, 72, 88)`:
 
 ```
-pdm run gen ./test.png "8,159,143" "42,72,88"
+uv run gradient_skins.py test.png 8,159,143 42,72,88
 ```
